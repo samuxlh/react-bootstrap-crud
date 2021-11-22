@@ -1,0 +1,1 @@
+O script de inicialização definido no backend durante a aula está depreciado e impossível de rodar nas versões mais novas do Node, não soube como resolver rapidamente sem comprometer o andamento da aula portanto segui em frente apenas com o frontend.

@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Samuel Santos",
+      "email": "samuelcezar@ykt.com.br"
+    },
+    {
+      "id": "2",
+      "name": "Samuel Santos 2",
+      "email": "samuelcezar2@ykt.com.br"
+    },
+    {
+      "name": "Teste",
+      "email": "samuxlh@gmail.com",
+      "id": "e00~_sF"
+    },
+    {
+      "name": "Samuel Lindo",
+      "email": "alsdkjaslkdj@gmasldijalk.com",
+      "id": "saPVMR2"
+    }
+  ]
+}
