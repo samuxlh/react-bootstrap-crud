@@ -22,21 +22,25 @@ export default class UserCrud extends Component {
         axios(baseUrl).then(resp => {
             this.setState({ list: resp.data })
         })
+        // Aqui eu devo pegar o que já está registrado no meu firebase e setar pro estado local
     }
 
     clear() {
         this.setState({ user: initialState.user })
+        // acho que aqui não vai precisar de alterações
     }
 
     save() {
         const user = this.state.user
         const method = user.id ? 'put' : 'post'
         const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
-        axios[method](url, user)
-            .then(resp => {
-                const list = this.getUpdatedList(resp.data)
-                this.setState({ user: initialState.user, list })
-            })
+        console.log(user)
+        console.log(url)
+        // axios[method](url, user)
+        //     .then(resp => {
+        //         const list = this.getUpdatedList(resp.data)
+        //         this.setState({ user: initialState.user, list })
+        //     })
     }
 
     getUpdatedList(user, add = true) {
@@ -146,7 +150,7 @@ export default class UserCrud extends Component {
             )
         })
     }
-    
+
     render() {
         return (
             <Main {...headerProps}>
