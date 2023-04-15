@@ -1,6 +1,27 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Main from '../template/Main'
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBfQasYnms4ZbdkG1KFm94JLqNrUesBSdk",
+  authDomain: "projeto-oficina-2.firebaseapp.com",
+  projectId: "projeto-oficina-2",
+  storageBucket: "projeto-oficina-2.appspot.com",
+  messagingSenderId: "236042839677",
+  appId: "1:236042839677:web:a2fca68f1f192ec1a83314"
+};
+
+const firebaseInstance = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseInstance)
+
+async function getPessoas(firestoreInstance){
+    const colunaPessoas = collection(firestoreInstance, 'pessoas')
+    const snapshotPessoas = await getDocs(colunaPessoas)
+    const listaPessoas = snapshotPessoas.docs.map(doc => doc.data());
+    return listaPessoas
+}
 
 const headerProps = {
     icon: 'users',
@@ -19,9 +40,10 @@ export default class UserCrud extends Component {
     state = { ...initialState }
 
     componentWillMount() {
-        axios(baseUrl).then(resp => {
-            this.setState({ list: resp.data })
-        })
+        console.log(getPessoas(db))
+        // axios(baseUrl).then(resp => {
+        //     this.setState({ list: resp.data })
+        // })
         // Aqui eu devo pegar o que já está registrado no meu firebase e setar pro estado local
     }
 
