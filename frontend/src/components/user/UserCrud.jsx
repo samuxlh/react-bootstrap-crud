@@ -1,27 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import Main from '../template/Main'
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBfQasYnms4ZbdkG1KFm94JLqNrUesBSdk",
-  authDomain: "projeto-oficina-2.firebaseapp.com",
-  projectId: "projeto-oficina-2",
-  storageBucket: "projeto-oficina-2.appspot.com",
-  messagingSenderId: "236042839677",
-  appId: "1:236042839677:web:a2fca68f1f192ec1a83314"
-};
-
-const firebaseInstance = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseInstance)
-
-async function getPessoas(firestoreInstance){
-    const colunaPessoas = collection(firestoreInstance, 'pessoas')
-    const snapshotPessoas = await getDocs(colunaPessoas)
-    const listaPessoas = snapshotPessoas.docs.map(doc => doc.data());
-    return listaPessoas
-}
+import { collection, getDocs } from 'firebase/firestore';
+import db from '../../main/firebaseConfig'
 
 const headerProps = {
     icon: 'users',
@@ -39,35 +21,31 @@ export default class UserCrud extends Component {
 
     state = { ...initialState }
 
-    componentWillMount() {
-        console.log(getPessoas(db))
-        // axios(baseUrl).then(resp => {
-        //     this.setState({ list: resp.data })
-        // })
-        // Aqui eu devo pegar o que já está registrado no meu firebase e setar pro estado local
+    async componentWillMount() {
+        console.log('la vem o then')
+        const colRef = collection(db, 'pessoas')
+        const snapshots = await getDocs(colRef)
+        const docs = snapshots.docs.map(doc => {
+            const d = doc.data()
+            d.id = doc.id
+            return d
+        })
+        this.setState({list : docs})
     }
 
     clear() {
         this.setState({ user: initialState.user })
-        // acho que aqui não vai precisar de alterações
     }
 
     save() {
         const user = this.state.user
-        const method = user.id ? 'put' : 'post'
-        const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
         console.log(user)
-        console.log(url)
-        // axios[method](url, user)
-        //     .then(resp => {
-        //         const list = this.getUpdatedList(resp.data)
-        //         this.setState({ user: initialState.user, list })
-        //     })
+        // consertar método de adição
     }
 
     getUpdatedList(user, add = true) {
         const list = this.state.list.filter(u => u.id !== user.id)
-        if(add) list.unshift(user)
+        if (add) list.unshift(user)
         return list
     }
 
